@@ -9,10 +9,6 @@ class usuariosModel {
     async getAllUsuarios(){
         return await Usuario.find();
     }
-
-    async getOneUsuarioById(id){
-        return await Usuario.findById(id);
-    }
     async getOneUsuario(filtro){
         return await Usuario.findOne(filtro);
     }

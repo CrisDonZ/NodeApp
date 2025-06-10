@@ -38,6 +38,7 @@ class mascotasController {
             const data = await mascotasModel.getAllMascotas();
             res.status(201).json(data);
         } catch (e) {
+            console.log(e);
             res.status(500).send(e);
         }
     }
