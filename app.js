@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from "express";
 import routeMascotas from './routes/mascotas.js';
 import bodyParser from 'body-parser';
+import dbClient from './config/dbClient.js';
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,3 +17,8 @@ try {
 } catch (e) {
     console.log(e);  
 }
+
+process.on('SIGINT', async() => {
+    dbClient.cerrarConexion();
+    process.exit(0);
+})

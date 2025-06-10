@@ -4,8 +4,6 @@ class mascotasController {
     constructor(){
 
     }
-
-
     async createMascota(req, res){
         try {
             const data = await mascotasModel.createMascota(req.body);

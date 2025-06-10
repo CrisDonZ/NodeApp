@@ -1,29 +1,25 @@
-import { ObjectId } from "mongodb";
-import dbClient from "../config/dbClient.js";
+
+import mongoose from 'mongoose';
+import Mascota from '../schemas/mascotasSchema.js'
 
 class mascotasModel {
     async createMascota(mascota){
-        const colMascotas = dbClient.db.collection('mascotas');
-        return await colMascotas.insertOne(mascota)
+        return await Mascota.create(mascota);
     }
     async getAllMascotas(){
-        const colMascotas = dbClient.db.collection('mascotas');
-        return await colMascotas.find({}).toArray();
+        return await Mascota.find();
     }
 
     async getOneMascota(id){
-        const colMascotas = dbClient.db.collection('mascotas');
-        return await colMascotas.findOne({ _id: new ObjectId(id)});
+        return await Mascota.findById(id);
     }
 
     async updateMascota(id, mascota) {
-        const colMascotas = dbClient.db.collection('mascotas');
-        return await colMascotas.updateOne({_id: new ObjectId(id)} , { $set:mascota});
+        return await Mascota.findOneAndUpdate({_id: new mongoose.Types.ObjectId(id)}, mascota, {new: true })
     }
 
     async deleteMascota(id){
-        const colMascotas = dbClient.db.collection('mascotas');
-        return await colMascotas.deleteOne({_id: new ObjectId(id)});
+        return await Mascota.findByIdAndDelete(id);
     }
 }
 
