@@ -23,4 +23,4 @@ class mascotasModel {
     }
 }
 
-export default new mascotasModel;
+export default new mascotasModel();
