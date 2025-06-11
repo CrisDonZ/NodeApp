@@ -1,19 +1,10 @@
 import bcrypt from "bcrypt";
 import usuariosModels from '../models/usuariosModels.js';
+import { generarToken } from "../helpers/auth.js";
 
 class usuariosController{
     constructor(){
 
-    }
-    async getAllUsuarios(req, res){
-        try {
-            const data = usuariosModels.getAllUsuarios();
-            res.status(201).json(data);
-        } catch (e) {
-            res.status(500).send(e);
-            console.log(e);
-            
-        }
     }
 
     async register(req, res){
@@ -55,7 +46,9 @@ class usuariosController{
                 return res.status(404).json({error: "Contraseña no valida"});
             }
 
-            return res.statuys(200).json({msg: 'Usuario autenticado'});
+            const token = generarToken(email);
+
+            return res.status(200).json({msg: 'Usuario autenticado', token});
 
         } catch (e) {
             res.status(500).send(e);
@@ -63,6 +56,16 @@ class usuariosController{
             
         }
 
+    }
+
+
+    async getProfile(req, res){
+            try {
+                const data = await usuariosModels.getOneUsuario({email: req.emailConectado});
+                res.status(201).json(data);
+            } catch (e) {
+                res.status(500).send(e);
+            }
     }
 }
 
