@@ -57,8 +57,6 @@ class usuariosController{
         }
 
     }
-
-
     async getProfile(req, res){
             try {
                 const data = await usuariosModels.getOneUsuario({email: req.emailConectado});
@@ -66,6 +64,29 @@ class usuariosController{
             } catch (e) {
                 res.status(500).send(e);
             }
+    }
+
+
+    async misMascotas(req,res){
+        try {
+            const { id } = req.params;
+
+            const usuarioExiste = await usuariosModels.getOneById(id);
+            if(!usuarioExiste){
+                
+                return res.status(400).json({ error: 'El usuario indicado no existe'});
+            }
+            
+            const data = await usuariosModels.getMisMascotas(id);
+            
+            if(!data){
+                return res.status(200).json({msg: 'No existen mascotas adoptadas actualmente'})
+            }
+            res.status(200).json(data);
+            
+        } catch (e) {
+            res.status(500).json({ mensaje: e.message });
+        }
     }
 }
 

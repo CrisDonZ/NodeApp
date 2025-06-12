@@ -5,6 +5,8 @@ class mascotasController {
 
     }
     async createMascota(req, res){
+        
+        const {nombre, tipo, raza, edad, owner, adopted} = req.body;
         try {
             const data = await mascotasModel.createMascota(req.body);
             res.status(201).json(data);
@@ -14,6 +16,7 @@ class mascotasController {
     }
 
     async updateMascota(req, res){
+        const {nombre, tipo, raza, edad, owner, adopted} = req.body;
         try {
             const {id} = req.params;
             const data = await mascotasModel.updateMascota(id, req.body);
@@ -50,6 +53,24 @@ class mascotasController {
             res.status(201).json(data);
         } catch (e) {
             res.status(500).send(e);
+        }
+    }
+
+
+    async adopt(req, res){
+        try {
+            const { mascotaId } = req.params;
+            const { usuarioId } = req.body;
+
+            if(!usuarioId){
+                return res.status(400).json({msg: 'Se necesita id del usuario adoptante'});
+            }
+
+            const data = await mascotasModel.adopt(mascotaId, usuarioId);
+            res.status(201).json({data});
+
+        } catch (e) {
+           res.status(500).json({mensaje: e.message }); 
         }
     }
 }

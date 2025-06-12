@@ -1,13 +1,16 @@
 
 import mongoose from 'mongoose';
 import Usuario from '../schemas/usuariosSchema.js'
+import Mascota from '../schemas/mascotasSchema.js';
 
 class usuariosModel {
     async createUsuario(usuario){
         return await Usuario.create(usuario)
     }
-    async getAllUsuarios(){
-        return await Usuario.find();
+
+
+    async getOneById(id){
+        return await Usuario.findById(id);
     }
     async getOneUsuario(filtro){
         return await Usuario.findOne(filtro);
@@ -19,6 +22,15 @@ class usuariosModel {
 
     async deleteUsuario(id){
         return await Usuario.findByIdAndDelete(id);
+    }
+
+    async getMisMascotas(id){
+        const filtro = {
+            owner: id
+        }
+        const mascotas = await Mascota.find(filtro)
+
+        return mascotas;
     }
 }
 

@@ -20,9 +20,16 @@ const mascotaSchema = new mongoose.Schema(
             required: true
         },
         owner: {
-            type: String,
-            default: "NA"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'usuarios',
+            default: null
+        },
+
+        adopted:{
+            type: Boolean,
+            default: false
         }
+
     }, {timestamps:true}
 );
 

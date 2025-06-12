@@ -1,6 +1,7 @@
 
 import mongoose from 'mongoose';
-import Mascota from '../schemas/mascotasSchema.js'
+import Mascota from '../schemas/mascotasSchema.js';
+import Usuario from '../schemas/usuariosSchema.js';
 
 class mascotasModel {
     async createMascota(mascota){
@@ -20,6 +21,34 @@ class mascotasModel {
 
     async deleteMascota(id){
         return await Mascota.findByIdAndDelete(id);
+    }
+
+    async adopt(mascotaId, usuarioId){
+        const mascota = await Mascota.findById(mascotaId);
+        if(!mascota){
+            throw new Error("Mascota no encontrada");
+            
+        }
+        if(mascota.adopted){
+            throw new Error("Mascota adoptada anteriormente");
+            
+        }
+
+        const usuario = await Usuario.findById(usuarioId);
+
+        if(!usuario){
+            throw new Error('Usuario no encontrado, no puede adoptar');
+            
+        }
+
+        const mascotaAdoptada = await Mascota.findByIdAndUpdate(mascotaId, {adopted: true, owner: usuarioId});
+
+        if(!mascotaAdoptada){
+            throw new Error('No hay mascota para adoptar');
+            
+        }
+
+        return mascotaAdoptada;
     }
 }
 

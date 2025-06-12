@@ -6,9 +6,14 @@ import dbClient from './config/dbClient.js';
 import routeUsuarios from './routes/usuarios.js';
 
 const app = express();
+
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocumentation from './swagger.json' with {type: 'json'};
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation));
 app.use('/mascotas', routeMascotas)
 app.use('/usuarios', routeUsuarios)
 

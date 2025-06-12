@@ -9,5 +9,6 @@ route.get('/', mascotasController.getAllMascotas);
 route.get('/:id', mascotasController.getOneMascotas);
 route.delete('/:id',verificarToken, mascotasController.deleteMascota);
 route.put('/:id',verificarToken,  mascotasController.updateMascota);
+route.post('/:mascotaId/adopt', verificarToken, mascotasController.adopt);
 
 export default route;
